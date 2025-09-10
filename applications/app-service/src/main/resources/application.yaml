@@ -1,14 +1,39 @@
-##Spring Configuration
 server:
-  port: 8080
+  port: 8082
 spring:
   application:
-    name: CrediYa
+    name: "CrediYa"
   devtools:
-    add-properties: false
-  h2:
-    console:
-      enabled: true
-      path: /h2
+    restart:
+      enabled: false
   profiles:
-    include:
+    include: null
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,prometheus"
+  endpoint:
+    health:
+      probes:
+        enabled: true
+aws:
+  region: "us-east-1"
+  dynamodb:
+    endpoint: ${APPROVED_LOANS_DYNAMO_TABLE}
+    tables:
+      approved-loans: "approved-loans"
+entrypoint:
+  sqs:
+    region: "us-east-1"
+    queueUrl: "${LOAN_APPLICATION_APPROVED_QUEUE}"
+    waitTimeSeconds: 20
+    maxNumberOfMessages: 10
+    visibilityTimeoutSeconds: 10
+    numberOfThreads: 1
+cors:
+  allowed-origins: "http://localhost:4200,http://localhost:8080"
+
+security:
+  jwt:
+    secret: "${JWT_SECRET}"
