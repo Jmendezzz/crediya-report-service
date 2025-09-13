@@ -22,7 +22,7 @@ aws:
   dynamodb:
     endpoint: ${APPROVED_LOANS_DYNAMO_TABLE}
     tables:
-      approved-loans: "approved-loans"
+      approved-loans: ${APPROVED_LOANS_DYNAMO_TABLE}
 entrypoint:
   sqs:
     region: "us-east-1"
