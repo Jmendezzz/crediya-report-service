@@ -1,5 +1,6 @@
 package co.com.crediya.api.security.config;
 
+import co.com.crediya.api.constant.ActuatorEndpoint;
 import co.com.crediya.api.constant.OpenApiEndpoint;
 import co.com.crediya.api.rest.reportmetric.constant.ReportMetricEndpoint;
 import co.com.crediya.api.security.handler.AuthenticationHandler;
@@ -36,6 +37,7 @@ public class SecurityConfig {
                                 OpenApiEndpoint.SWAGGER_UI_RESOURCES.getPath(),
                                 OpenApiEndpoint.WEB_JARS.getPath()
                         ).permitAll()
+                        .pathMatchers(ActuatorEndpoint.INFO.getPath(), ActuatorEndpoint.HEALTH.getPath()).permitAll()
                         .pathMatchers(ReportMetricEndpoint.GET_LOAN_APPROVALS.getPath())
                         .hasRole(RoleConstant.ADMINISTRATOR.getName())
                         .anyExchange().authenticated()
