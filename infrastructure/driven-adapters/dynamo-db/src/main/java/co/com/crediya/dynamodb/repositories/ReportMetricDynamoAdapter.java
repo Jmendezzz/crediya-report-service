@@ -38,7 +38,6 @@ public class ReportMetricDynamoAdapter implements ReportMetricRepository {
     @Override
     public Mono<Void> incrementGlobalLoanApprovalsMetrics(Double amount, Instant at) {
         Instant when = at == null ? Instant.now() : at;
-        log.info("Using DynamoDB table: {}", tableName);
         log.info(ReportMetricRepositoryLog.INCREMENT_START.getMessage(), Metric.APPROVED_COUNT.getName(), 1.0);
         log.info(ReportMetricRepositoryLog.INCREMENT_START.getMessage(), Metric.TOTAL_APPROVED_AMOUNT.getName(), amount);
 
