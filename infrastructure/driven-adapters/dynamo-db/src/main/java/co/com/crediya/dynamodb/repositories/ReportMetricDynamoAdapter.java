@@ -103,7 +103,7 @@ public class ReportMetricDynamoAdapter implements ReportMetricRepository {
                     LoanApprovalsMetric metrics = new LoanApprovalsMetric(
                             tuple.getT1().getMetricValue().longValue(),
                             tuple.getT2().getMetricValue(),
-                            Instant.now()
+                            tuple.getT1().getUpdatedAt()
                     );
                     log.info(ReportMetricRepositoryLog.GET_METRICS_SUCCESS.getMessage(),
                             metrics.getApprovedCount(),
