@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -22,12 +23,22 @@ import java.util.function.Function;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class SQSListener {
 
+    @Qualifier("sqsListenerClient")
     private final SqsAsyncClient sqsAsyncClient;
     private final SQSProperties properties;
     private final SQSProcessor processor;
+
+    public SQSListener(
+            @Qualifier("sqsListenerClient") SqsAsyncClient sqsAsyncClient,
+            SQSProperties properties,
+            SQSProcessor processor
+    ){
+        this.processor = processor;
+        this.properties = properties;
+        this.sqsAsyncClient = sqsAsyncClient;
+    }
 
     @PostConstruct
     public void start() {

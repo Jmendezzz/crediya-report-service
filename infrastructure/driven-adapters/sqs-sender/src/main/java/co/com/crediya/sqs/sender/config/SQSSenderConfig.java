@@ -1,5 +1,6 @@
-package co.com.crediya.sqs.listener.config;
+package co.com.crediya.sqs.sender.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProviderChain;
@@ -15,13 +16,14 @@ import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 
 import java.net.URI;
 
-@Configuration
-public class SQSConfig {
 
-    @Bean
-    public SqsAsyncClient configSqs(SQSProperties properties, MetricPublisher publisher) {
+@Configuration
+@ConditionalOnMissingBean(SqsAsyncClient.class)
+public class SQSSenderConfig {
+
+    @Bean(name = "sqsSenderConfig")
+    public SqsAsyncClient configSqs(SQSSenderProperties properties, MetricPublisher publisher) {
         return SqsAsyncClient.builder()
-                .endpointOverride(resolveEndpoint(properties))
                 .region(Region.of(properties.region()))
                 .overrideConfiguration(o -> o.addMetricPublisher(publisher))
                 .credentialsProvider(getProviderChain())
@@ -39,10 +41,4 @@ public class SQSConfig {
                 .build();
     }
 
-    protected URI resolveEndpoint(SQSProperties properties) {
-        if (properties.endpoint() != null) {
-            return URI.create(properties.endpoint());
-        }
-        return null;
-    }
 }

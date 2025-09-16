@@ -20,9 +20,9 @@ management:
 aws:
   region: "us-east-1"
   dynamodb:
-    endpoint: ${APPROVED_LOANS_DYNAMO_TABLE}
+    endpoint: "${APPROVED_LOANS_DYNAMO_TABLE}"
     tables:
-      approved-loans: ${APPROVED_LOANS_DYNAMO_TABLE}
+      approved-loans: "${APPROVED_LOANS_DYNAMO_TABLE}"
 entrypoint:
   sqs:
     region: "us-east-1"
@@ -33,7 +33,11 @@ entrypoint:
     numberOfThreads: 1
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
-
 security:
   jwt:
     secret: "${JWT_SECRET}"
+adapter:
+  sqs:
+    region: "us-east-1"
+    queues:
+      dailyReportMetricGenerated: "${DAILY_REPORT_METRIC_GENERATED_QUEUE}"
