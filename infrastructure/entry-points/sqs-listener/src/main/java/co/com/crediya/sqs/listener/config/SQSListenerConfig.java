@@ -16,10 +16,10 @@ import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 import java.net.URI;
 
 @Configuration
-public class SQSConfig {
+public class SQSListenerConfig {
 
-    @Bean
-    public SqsAsyncClient configSqs(SQSProperties properties, MetricPublisher publisher) {
+    @Bean(name = "sqsListenerClient")
+    public SqsAsyncClient sqsListenerClient(SQSProperties properties, MetricPublisher publisher) {
         return SqsAsyncClient.builder()
                 .endpointOverride(resolveEndpoint(properties))
                 .region(Region.of(properties.region()))
